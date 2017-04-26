@@ -4,6 +4,6 @@ goldboard5 gb;
 
 int main(void)
 {
-	gb.setLed(false);
+	gb.setLed(true);
 	for(;;);
 }
