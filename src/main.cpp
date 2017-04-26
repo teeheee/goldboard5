@@ -40,7 +40,7 @@ extern "C" {
 
 
 #include "stm32_ub_touch_480x272.h"
-
+#include "stm32_ub_i2c3.h"
 #ifdef __cplusplus
 }
 #endif
@@ -82,9 +82,8 @@ int main(void) {
 #define start 0xC0
 
 int kompassgetValue() {
-	return 0;
-	//HAL_I2C_WriteByte16(CompassAdress, CompassReg, start);
-	//return HAL_I2C_ReadByte16(CompassAdress,CompassReg);
+	UB_I2C3_WriteByte16(CompassAdress, CompassReg, start);
+	return UB_I2C3_ReadByte16(CompassAdress,CompassReg);
 	/* // send request for new value
 		Wire.beginTransmission(CMPS03_I2C_ADDRESS);
 		WIRE_WRITE(2);
