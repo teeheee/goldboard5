@@ -4,34 +4,28 @@
 
 #include "goldboard5.h"
 
-
-
-goldboard5::goldboard5()
-{
+goldboard5::goldboard5() {
 	HAL_Init();
 	SystemClock_Config();
 	BSP_LED_Init(LED1);
 	DisplayConfig();
 }
 
-
-void goldboard5::setLed(bool state)
-{
-	if(state)
+void goldboard5::setLed(bool state) {
+	if (state)
 		BSP_LED_On(LED1);
 	else
 		BSP_LED_Off(LED1);
 }
 
-
-
 void goldboard5::ButtonInit(uint16_t PIN) {
 
 	GPIO_InitTypeDef GPIO_InitStruct;
 
-	__HAL_RCC_GPIOI_CLK_ENABLE();
+	__HAL_RCC_GPIOI_CLK_ENABLE()
+	;
 
-	GPIO_InitStruct.Pin  = PIN;			//GPIO_PIN_11
+	GPIO_InitStruct.Pin = PIN;			//GPIO_PIN_11
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
@@ -42,17 +36,17 @@ void goldboard5::LedInit(uint16_t PIN) {
 	BSP_LED_Init(LED1);
 }
 
-
 uint8_t goldboard5::digitalgetValue(uint16_t GPIO_Pin) {
-	return HAL_GPIO_ReadPin(GPIOI,GPIO_Pin);
+	return HAL_GPIO_ReadPin(GPIOI, GPIO_Pin);
 }
 
 void goldboard5::DisplayStringAtLine(uint16_t Line, uint8_t *ptr) {
 	BSP_LCD_DisplayStringAtLine(Line, ptr);
 }
 
-void goldboard5::DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode) {
-	BSP_LCD_DisplayStringAt(Xpos,Ypos,Text,Mode);
+void goldboard5::DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text,
+		Text_AlignModeTypdef Mode) {
+	BSP_LCD_DisplayStringAt(Xpos, Ypos, Text, Mode);
 }
 
 void goldboard5::DisplayClearLine(uint32_t Line) {
@@ -69,7 +63,8 @@ void goldboard5::DisplayPrintNum(uint16_t line, int16_t num) {
 	BSP_LCD_DisplayStringAtLine(line, (uint8_t*) v);
 }
 
-void goldboard5::DisplayPrintNumAt(uint16_t Xpos, uint16_t Ypos, int16_t num, Text_AlignModeTypdef Mode) {
+void goldboard5::DisplayPrintNumAt(uint16_t Xpos, uint16_t Ypos, int16_t num,
+		Text_AlignModeTypdef Mode) {
 	char v[100];
 	itoa(num, v, 10);			//num wird zur Basis 10 in v gespeichert
 	BSP_LCD_DisplayStringAt(Xpos, Ypos, (uint8_t*) v, Mode);
@@ -82,8 +77,7 @@ void goldboard5::DisplayConfig() {
 	/* LCD Initialization */
 	BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
 	BSP_LCD_LayerDefaultInit(1,
-			LCD_FB_START_ADDRESS
-					+ (BSP_LCD_GetXSize() * BSP_LCD_GetYSize() * 4));
+	LCD_FB_START_ADDRESS + (BSP_LCD_GetXSize() * BSP_LCD_GetYSize() * 4));
 
 	/* Enable the LCD */
 	BSP_LCD_DisplayOn();
@@ -138,9 +132,6 @@ void goldboard5::DisplayClear() {
 uint32_t goldboard5::millis() {
 	return HAL_GetTick();
 }
-
-
-
 
 void goldboard5::SystemClock_Config() {
 	RCC_ClkInitTypeDef RCC_ClkInitStruct;

@@ -40,7 +40,7 @@ void PCF8574A::setPin(uint8_t pin, bool val)
 
 uint8_t PCF8574A::read()
 {
-	UB_I2C3_ReadByte (PCF8574A_ADDRESS + 1, &_pcfdata);
+	UB_I2C3_ReadByte(PCF8574A_ADDRESS ,_pcfdata);
 	return _pcfdata;
 }
 
@@ -49,7 +49,7 @@ void PCF8574A::write()
 	// only write if it's really needed, i2c writing costs time...
 	if (!_writeNeeded)
 		return;
-		
-	UB_I2C3_WriteByte(PCF8574A_ADDRESS, &_pcfdata);
+	UB_I2C3_WriteByte(PCF8574A_ADDRESS,_pcfdata,1);
+	//i2cWriteToSlave (PCF8574A_ADDRESS, &_pcfdata, 1);
 	_writeNeeded = false;
 }
