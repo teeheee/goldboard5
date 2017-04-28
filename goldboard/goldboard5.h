@@ -27,6 +27,7 @@ public:
 	void DisplayPrintNum(uint16_t line, int16_t num);
 	void DisplayPrintNumAt(uint16_t Xpos, uint16_t Ypos, int16_t num, Text_AlignModeTypdef Mode);
 	void DisplayStringAtLine(uint16_t Line, uint8_t *ptr);
+	void DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode);
 	void DisplayConfig();
 	void DisplayClearLine(uint32_t Line);
 	void Delay(__IO uint32_t Delay);

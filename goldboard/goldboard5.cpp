@@ -48,7 +48,11 @@ uint8_t goldboard5::digitalgetValue(uint16_t GPIO_Pin) {
 }
 
 void goldboard5::DisplayStringAtLine(uint16_t Line, uint8_t *ptr) {
-	BSP_LCD_DisplayStringAt(0, LINE(Line), ptr, LEFT_MODE);
+	BSP_LCD_DisplayStringAtLine(Line, ptr);
+}
+
+void goldboard5::DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode) {
+	BSP_LCD_DisplayStringAt(Xpos,Ypos,Text,Mode);
 }
 
 void goldboard5::DisplayClearLine(uint32_t Line) {
