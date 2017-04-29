@@ -17,8 +17,8 @@
 #ifndef PCF8574A_H_
 #define PCF8574A_H_
 
-#include "stm32_ub_i2c3.h"
 #include "stm32f7xx.h"
+#include "stm32_ub_i2c3.h"
 #include <cstdlib>
 
 class PCF8574A

@@ -18,7 +18,7 @@
 // MultiByte defines
 //--------------------------------------------------------------
 #define    I2C3_MULTIBYTE_ANZ   10         // anzahl der Bytes
-uint8_t    I2C3_DATA[I2C3_MULTIBYTE_ANZ];  // Array
+static uint8_t I2C3_DATA[I2C3_MULTIBYTE_ANZ];  // Array
 
 
 

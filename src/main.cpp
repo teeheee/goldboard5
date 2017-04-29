@@ -56,7 +56,7 @@ void Touchscreentest();
 /* Private function prototypes -----------------------------------------------*/
 int main(void) {
 	const char* val = "GoldBoard5";
-	const char* val2 = "RoCCI e.V.";
+	const char* val2 = "testRoCCI e.V.";
 
 	UB_Touch_Init();
 	gb.ButtonInit(GPIO_PIN_11);
