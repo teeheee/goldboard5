@@ -45,13 +45,13 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-//#include "Motor.h"
+#include "Motor.h"
 #include "goldboard5.h"
 
 
 goldboard5 gb;
-//Motor motor;
-//PCF8574A pcf8574;
+Motor motor;
+PCF8574A pcf8574;
 
 void Kompasstest() ;
 void Touchscreentest();
@@ -75,7 +75,7 @@ int main(void) {
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 	HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
-	//motor.init(motpin1,motpin2, GPIO_PIN_6, &pcf8574, &val3);
+	motor.init(motpin1,motpin2, GPIO_PIN_6, &pcf8574, &val3);
 
 
 
@@ -90,12 +90,17 @@ int main(void) {
 	BSP_LCD_DrawCircle(350,150,100);
 	BSP_LCD_FillCircle(350,150,100);
 	gb.DisplaySetTextColor(LCD_COLOR_BROWN);
+	while(1) {
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_9);
+		gb.delay(100);
+	}
 	while (1) {
 		//pcf8574.setPin(0,1);
 		//gb.delay(100);
 		//pcf8574.setPin(0,0);
 		//gb.delay(100);
-		//motor.rotate(255);
+		motor.rotate(255);
 		Touchscreentest();
 		Kompasstest();
 		gb.DisplayStringAtLine(6,(uint8_t*)"Taster: ");
