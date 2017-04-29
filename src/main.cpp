@@ -57,6 +57,7 @@ void Touchscreentest();
 int main(void) {
 	const char* val = "GoldBoard5";
 	const char* val2 = "RoCCI e.V.";
+
 	UB_Touch_Init();
 	gb.ButtonInit(GPIO_PIN_11);
 	gb.LedInit(GPIO_PIN_1);

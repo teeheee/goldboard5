@@ -15,7 +15,6 @@
 #include "stm32746g_discovery_lcd.h"
 
 
-
 #include <cstdlib>
 
 
