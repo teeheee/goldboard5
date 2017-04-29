@@ -17,7 +17,7 @@
 //--------------------------------------------------------------
 // MultiByte defines
 //--------------------------------------------------------------
-#define    I2C3_MULTIBYTE_ANZ   10         // anzahl der Bytes
+#define    I2C1_MULTIBYTE_ANZ   10         // anzahl der Bytes
 
 
 
@@ -25,14 +25,14 @@
 //--------------------------------------------------------------
 // APB1-Clock = 50MHz
 //--------------------------------------------------------------
-#define I2C3_TIMING      0x40912732   // 100kHz
+#define I2C1_TIMING      0x40912732   // 100kHz
 
 
 
 //--------------------------------------------------------------
 // Defines
 //-------------------------------------------------------------- 
-#define   I2C3_TIMEOUT     1000       // Timeout Zeit in ms
+#define   I2C1_TIMEOUT     1000       // Timeout Zeit in ms
 
 
 
@@ -42,11 +42,11 @@
 //   SCL : [PA8, PH7]
 //   SDA : [PC9, PH8]
 //--------------------------------------------------------------
-#define  I2C3_SCL_PORT    GPIOB
-#define  I2C3_SCL_PIN     GPIO_PIN_8
+#define  I2C1_SCL_PORT    GPIOB
+#define  I2C1_SCL_PIN     GPIO_PIN_8
 
-#define  I2C3_SDA_PORT    GPIOB
-#define  I2C3_SDA_PIN     GPIO_PIN_9
+#define  I2C1_SDA_PORT    GPIOB
+#define  I2C1_SDA_PIN     GPIO_PIN_9
 
 
 //--------------------------------------------------------------

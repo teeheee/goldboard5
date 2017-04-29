@@ -12,7 +12,7 @@
 // Funktion : I2C-LoLevel-Funktionen (I2C-3)
 //
 // Hinweis  : mögliche Pinbelegungen
-//            I2C3 : SCL : [PA8, PH7] 
+//            I2C1 : SCL : [PA8, PH7]
 //                   SDA : [PC9, PH8]
 //            externe PullUp-Widerstände an SCL+SDA notwendig
 //--------------------------------------------------------------
@@ -21,23 +21,23 @@
 // Includes
 //--------------------------------------------------------------
 #include "stm32_UB_I2C1.h"
-static uint8_t I2C3_DATA[I2C3_MULTIBYTE_ANZ];  // Array
+static uint8_t I2C1_DATA[I2C1_MULTIBYTE_ANZ];  // Array
 
 //--------------------------------------------------------------
 // interne Funktionen
 //--------------------------------------------------------------
-void P_HAL_I2C3_MspInit(void);
+void P_HAL_I2C1_MspInit(void);
 
 
 
 //--------------------------------------------------------------
 // globale Variabeln
 //-------------------------------------------------------------- 
-I2C_HandleTypeDef I2c3Handle; 
+I2C_HandleTypeDef I2C1Handle;
 
 
 //--------------------------------------------------------------
-// Init von I2C3
+// Init von I2C1
 //-------------------------------------------------------------- 
 void UB_I2C1_Init(void)
 {
@@ -48,18 +48,18 @@ void UB_I2C1_Init(void)
     return;
   } 
 
-  I2c3Handle.Instance             = I2C3;
-  I2c3Handle.Init.Timing          = I2C3_TIMING;
-  I2c3Handle.Init.OwnAddress1     = 0;
-  I2c3Handle.Init.AddressingMode  = I2C_ADDRESSINGMODE_7BIT;
-  I2c3Handle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  I2c3Handle.Init.OwnAddress2     = 0;
-  I2c3Handle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  I2c3Handle.Init.NoStretchMode   = I2C_NOSTRETCH_DISABLE;
-  P_HAL_I2C3_MspInit();
-  HAL_I2C_Init(&I2c3Handle);
+  I2C1Handle.Instance             = I2C1;
+  I2C1Handle.Init.Timing          = I2C1_TIMING;
+  I2C1Handle.Init.OwnAddress1     = 0;
+  I2C1Handle.Init.AddressingMode  = I2C_ADDRESSINGMODE_7BIT;
+  I2C1Handle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  I2C1Handle.Init.OwnAddress2     = 0;
+  I2C1Handle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  I2C1Handle.Init.NoStretchMode   = I2C_NOSTRETCH_DISABLE;
+  P_HAL_I2C1_MspInit();
+  HAL_I2C_Init(&I2C1Handle);
 
-  HAL_I2CEx_ConfigAnalogFilter(&I2c3Handle,I2C_ANALOGFILTER_ENABLE);
+  HAL_I2CEx_ConfigAnalogFilter(&I2C1Handle,I2C_ANALOGFILTER_ENABLE);
 
   // init Mode speichern
   init_ok=1;
@@ -79,26 +79,26 @@ int16_t UB_I2C1_ReadByte(uint8_t slave_adr, uint8_t adr)
 {
   int16_t ret_wert=0;
 
-  I2C3_DATA[0]=adr;
+  I2C1_DATA[0]=adr;
 
   // adresse senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, 1, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, 1, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   }  
   if(ret_wert!=0) return(ret_wert);
   
   // daten lesen
-  if(HAL_I2C_Master_Receive(&I2c3Handle, (uint16_t)slave_adr, (uint8_t *)I2C3_DATA, 1, I2C3_TIMEOUT) != HAL_OK)
+  if(HAL_I2C_Master_Receive(&I2C1Handle, (uint16_t)slave_adr, (uint8_t *)I2C1_DATA, 1, I2C1_TIMEOUT) != HAL_OK)
   {
     ret_wert=-3;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-4;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-4;
   } 
   if(ret_wert!=0) return(ret_wert);
 
   // daten
-  ret_wert=I2C3_DATA[0];
+  ret_wert=I2C1_DATA[0];
 
   return(ret_wert);
 }
@@ -118,14 +118,14 @@ int16_t UB_I2C1_WriteByte(uint8_t slave_adr, uint8_t adr, uint8_t wert)
 {
   int16_t ret_wert=0;  
 
-  I2C3_DATA[0]=adr;
-  I2C3_DATA[1]=wert;
+  I2C1_DATA[0]=adr;
+  I2C1_DATA[1]=wert;
   
   // adresse und wert senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, 2, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, 2, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   } 
 
   return(ret_wert);
@@ -138,7 +138,7 @@ int16_t UB_I2C1_WriteByte(uint8_t slave_adr, uint8_t adr, uint8_t wert)
 // slave_adr => I2C-Basis-Adresse vom Slave
 // adr       => Start Register Adresse ab der gelesen wird
 // cnt       => Anzahl der Bytewert die gelesen werden sollen
-// Daten die gelesen worden sind, stehen danach in "I2C3_DATA"
+// Daten die gelesen worden sind, stehen danach in "I2C1_DATA"
 //
 // Return_wert :
 //    0   , Ok
@@ -148,21 +148,21 @@ int16_t UB_I2C1_ReadMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt)
 {
   int16_t ret_wert=0;
 
-  I2C3_DATA[0]=adr;
+  I2C1_DATA[0]=adr;
 
   // adresse senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, 1, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, 1, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   }  
   if(ret_wert!=0) return(ret_wert);
   
   // daten lesen
-  if(HAL_I2C_Master_Receive(&I2c3Handle, (uint16_t)slave_adr, (uint8_t *)I2C3_DATA, cnt, I2C3_TIMEOUT) != HAL_OK)
+  if(HAL_I2C_Master_Receive(&I2C1Handle, (uint16_t)slave_adr, (uint8_t *)I2C1_DATA, cnt, I2C1_TIMEOUT) != HAL_OK)
   {
     ret_wert=-3;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-4;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-4;
   } 
   if(ret_wert!=0) return(ret_wert);
 
@@ -174,7 +174,7 @@ int16_t UB_I2C1_ReadMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt)
 // slave_adr => I2C-Basis-Adresse vom Slave
 // adr       => Start Register Adresse ab der beschrieben wird
 // cnt       => Anzahl der Bytewert die geschrieben werden sollen
-// Daten die geschrieben werden sollen, müssen in "I2C3_DATA" stehen
+// Daten die geschrieben werden sollen, müssen in "I2C1_DATA" stehen
 //
 // Return_wert :
 //    0   , Ok
@@ -186,15 +186,15 @@ int16_t UB_I2C1_WriteMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt)
   uint16_t n;
 
   for(n=cnt;n>0;n--) {
-    I2C3_DATA[n]=I2C3_DATA[n-1];    
+    I2C1_DATA[n]=I2C1_DATA[n-1];
   } 
-  I2C3_DATA[0]=adr;
+  I2C1_DATA[0]=adr;
   
   // adresse und alle daten senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, cnt+1, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, cnt+1, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   }
   
   return(ret_wert);
@@ -214,13 +214,13 @@ int16_t UB_I2C1_WriteCMD(uint8_t slave_adr, uint8_t cmd)
 {
   int16_t ret_wert=0;
 
-  I2C3_DATA[0]=cmd;
+  I2C1_DATA[0]=cmd;
 
   // command senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, 1, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, 1, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   }
 
   return(ret_wert);
@@ -245,27 +245,27 @@ int16_t UB_I2C1_ReadByte16(uint8_t slave_adr, uint16_t adr)
   lo=(adr&0x00FF);
   hi=(adr>>8);  
 
-  I2C3_DATA[0]=hi;
-  I2C3_DATA[1]=lo;
+  I2C1_DATA[0]=hi;
+  I2C1_DATA[1]=lo;
 
   // adresse senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, 2, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, 2, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   }  
   if(ret_wert!=0) return(ret_wert);
   
   // daten lesen
-  if(HAL_I2C_Master_Receive(&I2c3Handle, (uint16_t)slave_adr, (uint8_t *)I2C3_DATA, 1, I2C3_TIMEOUT) != HAL_OK)
+  if(HAL_I2C_Master_Receive(&I2C1Handle, (uint16_t)slave_adr, (uint8_t *)I2C1_DATA, 1, I2C1_TIMEOUT) != HAL_OK)
   {
     ret_wert=-3;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-4;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-4;
   } 
   if(ret_wert!=0) return(ret_wert);
 
   // daten
-  ret_wert=I2C3_DATA[0];
+  ret_wert=I2C1_DATA[0];
 
   return(ret_wert);
 
@@ -290,15 +290,15 @@ int16_t UB_I2C1_WriteByte16(uint8_t slave_adr, uint16_t adr, uint8_t wert)
   lo=(adr&0x00FF);
   hi=(adr>>8);  
 
-  I2C3_DATA[0]=hi;
-  I2C3_DATA[1]=lo;
-  I2C3_DATA[2]=wert;
+  I2C1_DATA[0]=hi;
+  I2C1_DATA[1]=lo;
+  I2C1_DATA[2]=wert;
 
   // adresse und wert senden
-  if(HAL_I2C_Master_Transmit(&I2c3Handle, (uint16_t)slave_adr, (uint8_t*)I2C3_DATA, 3, I2C3_TIMEOUT)!= HAL_OK)
+  if(HAL_I2C_Master_Transmit(&I2C1Handle, (uint16_t)slave_adr, (uint8_t*)I2C1_DATA, 3, I2C1_TIMEOUT)!= HAL_OK)
   {
     ret_wert=-1;
-    if (HAL_I2C_GetError(&I2c3Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
+    if (HAL_I2C_GetError(&I2C1Handle) != HAL_I2C_ERROR_AF) ret_wert=-2;
   }
 
   return(ret_wert);
@@ -314,7 +314,7 @@ void UB_I2C1_Delay(volatile uint32_t nCount)
   {
   }
 }
-
+/*
 void UB_System_ClockEnable(GPIO_TypeDef* LED_PORT)
 {
   if(LED_PORT==GPIOA) __GPIOA_CLK_ENABLE();
@@ -328,36 +328,36 @@ void UB_System_ClockEnable(GPIO_TypeDef* LED_PORT)
   if(LED_PORT==GPIOI) __GPIOI_CLK_ENABLE();
   if(LED_PORT==GPIOJ) __GPIOJ_CLK_ENABLE();
   if(LED_PORT==GPIOK) __GPIOK_CLK_ENABLE();
-}
+}*/
 
 //--------------------------------------------------------------
 // interne Funktion
 //-------------------------------------------------------------- 
-void P_HAL_I2C3_MspInit(void)
+void P_HAL_I2C1_MspInit(void)
 {
   GPIO_InitTypeDef  GPIO_InitStruct;
   RCC_PeriphCLKInitTypeDef  RCC_PeriphCLKInitStruct;
   
   // I2C-Clock
-  RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2C3;
-  RCC_PeriphCLKInitStruct.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1 ;
+  RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
+  RCC_PeriphCLKInitStruct.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1 ;
   HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
 
   // GPIO-Clock
-  UB_System_ClockEnable(I2C3_SCL_PORT);
-  UB_System_ClockEnable(I2C3_SDA_PORT);
+  UB_System_ClockEnable(I2C1_SCL_PORT);
+  UB_System_ClockEnable(I2C1_SDA_PORT);
   // enable
-  __HAL_RCC_I2C3_CLK_ENABLE(); 
+  __HAL_RCC_I2C1_CLK_ENABLE();
 
   // GPIO
-  GPIO_InitStruct.Pin       = I2C3_SCL_PIN;
+  GPIO_InitStruct.Pin       = I2C1_SCL_PIN;
   GPIO_InitStruct.Mode      = GPIO_MODE_AF_OD;
   GPIO_InitStruct.Pull      = GPIO_PULLUP;
   GPIO_InitStruct.Speed     = GPIO_SPEED_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
-  HAL_GPIO_Init(I2C3_SCL_PORT, &GPIO_InitStruct);
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+  HAL_GPIO_Init(I2C1_SCL_PORT, &GPIO_InitStruct);
   
-  GPIO_InitStruct.Pin       = I2C3_SDA_PIN;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
-  HAL_GPIO_Init(I2C3_SDA_PORT, &GPIO_InitStruct);
+  GPIO_InitStruct.Pin       = I2C1_SDA_PIN;
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+  HAL_GPIO_Init(I2C1_SDA_PORT, &GPIO_InitStruct);
 } 
