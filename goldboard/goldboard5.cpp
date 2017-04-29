@@ -7,8 +7,8 @@
 goldboard5::goldboard5() {
 	HAL_Init();
 	SystemClock_Config();
-	BSP_LED_Init(LED1);
-	DisplayConfig();
+	//BSP_LED_Init(LED1);
+	//DisplayConfig();
 }
 
 void goldboard5::setLed(bool state) {

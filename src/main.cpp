@@ -50,8 +50,8 @@ extern "C" {
 
 
 goldboard5 gb;
-Motor motor;
-PCF8574A pcf8574;
+//Motor motor;
+//PCF8574A pcf8574;
 
 void Kompasstest() ;
 void Touchscreentest();
@@ -60,7 +60,7 @@ uint8_t val3;
 /* Private function prototypes -----------------------------------------------*/
 int main(void) {
 
-	const char* val = "GoldBoard5";
+	/*const char* val = "GoldBoard5";
 	const char* val2 = "RoCCI e.V.";
 	UB_I2C1_Init();
 	UB_Touch_Init();
@@ -89,18 +89,33 @@ int main(void) {
 	gb.DisplaySetTextColor(LCD_COLOR_LIGHTBLUE);
 	BSP_LCD_DrawCircle(350,150,100);
 	BSP_LCD_FillCircle(350,150,100);
-	gb.DisplaySetTextColor(LCD_COLOR_BROWN);
+	gb.DisplaySetTextColor(LCD_COLOR_BROWN);*/
+
+	  GPIO_InitTypeDef  GPIO_InitStruct;
+	 GPIO_InitStruct.Pin       = GPIO_PIN_8;
+	 GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+	  GPIO_InitStruct.Pull      = GPIO_PULLUP;
+	  GPIO_InitStruct.Speed     = GPIO_SPEED_HIGH;
+	 // GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+	  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	  GPIO_InitStruct.Pin       = GPIO_PIN_9;
+	 // GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+	  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	  __HAL_RCC_GPIOB_CLK_ENABLE();
+
 	while(1) {
 		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
+		gb.delay(10);
 		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_9);
-		gb.delay(100);
+		gb.delay(10);
 	}
 	while (1) {
 		//pcf8574.setPin(0,1);
 		//gb.delay(100);
 		//pcf8574.setPin(0,0);
 		//gb.delay(100);
-		motor.rotate(255);
+		//motor.rotate(255);
 		Touchscreentest();
 		Kompasstest();
 		gb.DisplayStringAtLine(6,(uint8_t*)"Taster: ");

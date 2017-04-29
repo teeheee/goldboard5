@@ -11,16 +11,16 @@
 // Module   : CubeHAL
 // Funktion : I2C-LoLevel-Funktionen (I2C-3)
 //
-// Hinweis  : mögliche Pinbelegungen
+// Hinweis  : mï¿½gliche Pinbelegungen
 //            I2C1 : SCL : [PA8, PH7]
 //                   SDA : [PC9, PH8]
-//            externe PullUp-Widerstände an SCL+SDA notwendig
+//            externe PullUp-Widerstï¿½nde an SCL+SDA notwendig
 //--------------------------------------------------------------
 
 //--------------------------------------------------------------
 // Includes
 //--------------------------------------------------------------
-#include "stm32_UB_I2C1.h"
+#include "stm32_ub_i2c1.h"
 static uint8_t I2C1_DATA[I2C1_MULTIBYTE_ANZ];  // Array
 
 //--------------------------------------------------------------
@@ -174,7 +174,7 @@ int16_t UB_I2C1_ReadMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt)
 // slave_adr => I2C-Basis-Adresse vom Slave
 // adr       => Start Register Adresse ab der beschrieben wird
 // cnt       => Anzahl der Bytewert die geschrieben werden sollen
-// Daten die geschrieben werden sollen, müssen in "I2C1_DATA" stehen
+// Daten die geschrieben werden sollen, mï¿½ssen in "I2C1_DATA" stehen
 //
 // Return_wert :
 //    0   , Ok
