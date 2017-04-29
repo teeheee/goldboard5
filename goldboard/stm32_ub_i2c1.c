@@ -314,8 +314,8 @@ void UB_I2C1_Delay(volatile uint32_t nCount)
   {
   }
 }
-/*
-void UB_System_ClockEnable(GPIO_TypeDef* LED_PORT)
+
+void UB_System_ClockEnable1(GPIO_TypeDef* LED_PORT)
 {
   if(LED_PORT==GPIOA) __GPIOA_CLK_ENABLE();
   if(LED_PORT==GPIOB) __GPIOB_CLK_ENABLE();
@@ -328,7 +328,7 @@ void UB_System_ClockEnable(GPIO_TypeDef* LED_PORT)
   if(LED_PORT==GPIOI) __GPIOI_CLK_ENABLE();
   if(LED_PORT==GPIOJ) __GPIOJ_CLK_ENABLE();
   if(LED_PORT==GPIOK) __GPIOK_CLK_ENABLE();
-}*/
+}
 
 //--------------------------------------------------------------
 // interne Funktion
@@ -344,8 +344,8 @@ void P_HAL_I2C1_MspInit(void)
   HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
 
   // GPIO-Clock
-  UB_System_ClockEnable(I2C1_SCL_PORT);
-  UB_System_ClockEnable(I2C1_SDA_PORT);
+  UB_System_ClockEnable1(I2C1_SCL_PORT);
+  UB_System_ClockEnable1(I2C1_SDA_PORT);
   // enable
   __HAL_RCC_I2C1_CLK_ENABLE();
 

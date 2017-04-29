@@ -35,13 +35,6 @@
 #define   I2C1_TIMEOUT     1000       // Timeout Zeit in ms
 
 
-
-//--------------------------------------------------------------
-// I2C-GPIO-Pins
-// moegliche Pinbelegung :
-//   SCL : [PA8, PH7]
-//   SDA : [PC9, PH8]
-//--------------------------------------------------------------
 #define  I2C1_SCL_PORT    GPIOB
 #define  I2C1_SCL_PIN     GPIO_PIN_8
 
