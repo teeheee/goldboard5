@@ -23,3 +23,7 @@ void goldboard5::setLed(bool state)
 		BSP_LED_Off(LED1);
 }
 
+void goldboard5::delay(unsigned long time)
+{
+
+}

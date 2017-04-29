@@ -18,6 +18,7 @@ class goldboard5{
 public:
 	goldboard5();
 	void setLed(bool state);
+	void delay(unsigned long time);
 };
 
 
