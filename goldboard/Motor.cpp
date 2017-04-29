@@ -44,8 +44,8 @@ void Motor::init(uint8_t directionPinFirst, uint8_t directionPinSecond, uint8_t 
 	__HAL_RCC_GPIOI_CLK_ENABLE();
 
 		GPIO_InitStruct.Pin  = spPin;			//GPIO_PIN_11
-		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-		HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+		HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 	//pinMode(spPin, OUTPUT);
 	
 	// set as leerlauf

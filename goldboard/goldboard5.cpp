@@ -120,7 +120,7 @@ void goldboard5::DisplayConfig() {
  * @param  None
  * @retval None
  */
-void goldboard5::Delay(__IO uint32_t Delay) {
+void goldboard5::delay(__IO uint32_t Delay) {
 	HAL_Delay(Delay);
 }
 

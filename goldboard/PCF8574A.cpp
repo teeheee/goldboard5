@@ -20,7 +20,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	#include "stm32_ub_i2c3.h"
+	#include "stm32_ub_i2c1.h"
 #ifdef __cplusplus
 }
 #endif
@@ -50,7 +50,7 @@ void PCF8574A::setPin(uint8_t pin, bool val)
 
 uint8_t PCF8574A::read()
 {
-	UB_I2C3_ReadByte(PCF8574A_ADDRESS ,_pcfdata);
+	UB_I2C1_ReadByte(PCF8574A_ADDRESS ,_pcfdata);
 	return _pcfdata;
 }
 
@@ -60,7 +60,7 @@ void PCF8574A::write()
 	if (!_writeNeeded)
 		return;
 
-	UB_I2C3_WriteCMD((uint8_t)PCF8574A_ADDRESS,_pcfdata);
+	UB_I2C1_WriteCMD((uint8_t)PCF8574A_ADDRESS,_pcfdata);
 	//i2cWriteToSlave (PCF8574A_ADDRESS, &_pcfdata, 1);
 	_writeNeeded = false;
 }

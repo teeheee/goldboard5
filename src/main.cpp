@@ -10,7 +10,7 @@
 /*
  Wichtige Befehle:
  HAL_GetTick()   --> aktuelle Systemzeit in ms 32 bit! --> millis() geht auch
- HAL_Delay(100); --> normales Delay in ms --> Delay(); geht auch
+ HAL_Delay(100); --> normales Delay in ms --> delay(); geht auch
  BSP_LCD_ClearStringLine(0);	--> löscht einzelne Zeilen auf dem Display --> DisplayClearLine(); geht auch
  BSP_LCD_DisplayPrintNum(4,-2);	--> schreibt Zahl "-2" in Zeile 4	-->DisplayPrintNum(); geht auch
  BSP_LCD_DisplayPrintNumAt(50,50,-50,0);	--> Zahl -50 an Position x 50, y 50-->DisplayPrintNumAt(50,50,-50,0); geht auch
@@ -40,6 +40,7 @@ extern "C" {
 
 #include "stm32_ub_touch_480x272.h"
 #include "stm32_ub_i2c3.h"
+#include "stm32_ub_i2c1.h"
 
 #ifdef __cplusplus
 }
@@ -58,9 +59,11 @@ uint8_t val3;
 
 /* Private function prototypes -----------------------------------------------*/
 int main(void) {
+
 	const char* val = "GoldBoard5";
 	const char* val2 = "RoCCI e.V.";
-
+	UB_I2C1_Init();
+	UB_Touch_Init();
 	#define motpin1 0
 	#define motpin2 1
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -71,12 +74,12 @@ int main(void) {
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
+	HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
 	motor.init(motpin1,motpin2, GPIO_PIN_6, &pcf8574, &val3);
 
 
 
-	UB_Touch_Init();
+
 	gb.ButtonInit(GPIO_PIN_11);
 	gb.LedInit(GPIO_PIN_1);
 	gb.DisplaySetTextColor(LCD_COLOR_RED);
@@ -88,6 +91,11 @@ int main(void) {
 	BSP_LCD_FillCircle(350,150,100);
 	gb.DisplaySetTextColor(LCD_COLOR_BROWN);
 	while (1) {
+		pcf8574.setPin(0,1);
+		gb.delay(100);
+		pcf8574.setPin(0,0);
+		gb.delay(100);
+		motor.rotate(255);
 		Touchscreentest();
 		Kompasstest();
 		gb.DisplayStringAtLine(6,(uint8_t*)"Taster: ");
@@ -208,7 +216,7 @@ void Touchscreentest() {
 		gb.DisplayStringAtLine(0, (uint8_t*) "5 Finger wurden aufgelegt ");
 	}
 	HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_1);
-	gb.Delay(100);
+	gb.delay(100);
 	gb.DisplayClearLine(0);
 	gb.DisplayClearLine(1);
 }

@@ -28,7 +28,7 @@ public:
 	void DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode);
 	void DisplayConfig();
 	void DisplayClearLine(uint32_t Line);
-	void Delay(__IO uint32_t Delay);
+	void delay(__IO uint32_t Delay);
 	void DisplayClear();
 	uint32_t millis();
 	void DisplaySetTextColor(uint32_t Color);
