@@ -21,7 +21,7 @@
 // Includes
 //--------------------------------------------------------------
 #include "stm32_ub_i2c3.h"
-
+static uint8_t I2C3_DATA[I2C3_MULTIBYTE_ANZ];  // Array
 
 //--------------------------------------------------------------
 // interne Funktionen

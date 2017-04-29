@@ -16,6 +16,16 @@
 
 #include "PCF8574A.h"
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+	#include "stm32_ub_i2c3.h"
+#ifdef __cplusplus
+}
+#endif
+
+
 #define PCF8574A_ADDRESS 0b01110000 
 
 
@@ -49,7 +59,8 @@ void PCF8574A::write()
 	// only write if it's really needed, i2c writing costs time...
 	if (!_writeNeeded)
 		return;
-	UB_I2C3_WriteByte(PCF8574A_ADDRESS,_pcfdata,1);
+
+	UB_I2C3_WriteCMD((uint8_t)PCF8574A_ADDRESS,_pcfdata);
 	//i2cWriteToSlave (PCF8574A_ADDRESS, &_pcfdata, 1);
 	_writeNeeded = false;
 }

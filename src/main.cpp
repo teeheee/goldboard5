@@ -31,8 +31,7 @@
  BSP_LCD_DisplayPrintNumAt(50,40,MultiTouch_Data.p[i].yp,0);
  BSP_LCD_DisplayPrintNumAt(50,60,MultiTouch_Data.p[i].xp,0);
 
- */
-
+*/
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,22 +40,41 @@ extern "C" {
 
 #include "stm32_ub_touch_480x272.h"
 #include "stm32_ub_i2c3.h"
+
 #ifdef __cplusplus
 }
 #endif
-
+#include "Motor.h"
 #include "goldboard5.h"
 
 
 goldboard5 gb;
+Motor motor;
+PCF8574A pcf8574;
 
 void Kompasstest() ;
 void Touchscreentest();
+uint8_t val3;
 
 /* Private function prototypes -----------------------------------------------*/
 int main(void) {
 	const char* val = "GoldBoard5";
-	const char* val2 = "testRoCCI e.V.";
+	const char* val2 = "RoCCI e.V.";
+
+	#define motpin1 0
+	#define motpin2 1
+	GPIO_InitTypeDef GPIO_InitStruct;
+
+	__HAL_RCC_GPIOI_CLK_ENABLE();
+
+	GPIO_InitStruct.Pin = GPIO_PIN_6;			//GPIO_PIN_11
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+	motor.init(motpin1,motpin2, GPIO_PIN_6, &pcf8574, &val3);
+
+
 
 	UB_Touch_Init();
 	gb.ButtonInit(GPIO_PIN_11);
