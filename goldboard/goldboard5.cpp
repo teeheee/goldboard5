@@ -89,7 +89,6 @@ goldboard5::goldboard5()
 	HAL_Init();
 	SystemClock_Config();
 	DisplayConfig();
-	SystemCoreClockUpdate();
 	BSP_LED_Init(LED1);
 }
 
