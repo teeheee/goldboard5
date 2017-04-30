@@ -12,6 +12,9 @@
 #include "stm32f7xx.h"
 #include "stm32746g_discovery.h"
 
+#include "stm32746g_discovery_lcd.h"
+
+
 
 
 class goldboard5{
