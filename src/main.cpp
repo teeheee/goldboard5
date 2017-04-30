@@ -18,24 +18,14 @@ void displaystatus(HAL_StatusTypeDef ret) {
 
 
 
-
 int main(void) {
 
 	goldboard5 gb;
-	BSP_LCD_DisplayStringAtLine(linecounter++, (uint8_t*) "start2");
+	BSP_LCD_DisplayStringAtLine(linecounter++, (uint8_t*) "start");
 
 
-	HAL_StatusTypeDef ret;
-
-	//1.Declare a I2C_HandleTypeDef handle structure, for example: I2C_HandleTypeDef hi2c;
-	I2C_HandleTypeDef i2c_handle;
-    //a. Enable the I2Cx interface clock
 	__HAL_RCC_I2C1_CLK_ENABLE();
-
-	//I2C pins configuration
-	//Enable the clock for the I2C GPIOs
 	__GPIOB_CLK_ENABLE();
-	//Configure I2C pins as alternate function open-drain
 	GPIO_InitTypeDef scl_initdef;
 	scl_initdef.Mode = GPIO_MODE_AF_OD;
 	scl_initdef.Pull = GPIO_PULLUP;
@@ -54,13 +44,10 @@ int main(void) {
 	HAL_GPIO_Init(GPIOB, &sda_initdef);
 
 
-	BSP_LCD_DisplayStringAtLine(linecounter++, (uint8_t*) "gpio configured");
-    //NVIC configuration if you need to use interrupt process
-    //DMA Configuration if you need to use DMA process
 
-	//Configure the Communication Clock Timing, Own Address1, Master Addressing
-	//mode, Dual Addressing mode, Own Address2, Own Address2 Mask, General call and
-	//Nostretch mode in the hi2c Init structure. i2c_handle.Instance = I2C1;
+	HAL_StatusTypeDef ret;
+	I2C_HandleTypeDef i2c_handle;
+	i2c_handle.Instance = I2C1;
 	i2c_handle.Init.Timing = 0x40912732; // 100kHz
 	i2c_handle.Init.OwnAddress1 = 0;
 	i2c_handle.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -69,10 +56,9 @@ int main(void) {
 	i2c_handle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
 	i2c_handle.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
 
-	//4.Initialize the I2C registers by calling the HAL_I2C_Init(), configures also the low level
-	//Hardware (GPIO, CLOCK, NVIC...etc) by calling the customized  HAL_I2C_MspInit(&hi2c) API.
 	ret = HAL_I2C_Init(&i2c_handle);
 	displaystatus(ret);
+
 
 	RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct;
 	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
@@ -80,19 +66,8 @@ int main(void) {
 	ret = HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
 	displaystatus(ret);
 
-
-	//To check if target device is ready for communication, use the function HAL_I2C_IsDeviceReady()
-	ret = HAL_I2C_IsDeviceReady(&i2c_handle,0x42,5,2);
-	displaystatus(ret);
-
-
-	BSP_LCD_DisplayStringAtLine(linecounter++, (uint8_t*) "i2c configured");
-
-
-	/**/
-
 	uint8_t data = 2;
-	ret = HAL_I2C_Master_Transmit(&i2c_handle, 0x42, (uint8_t*) &data, 1, 20);
+	ret = HAL_I2C_Master_Transmit(&i2c_handle, 0x41, (uint8_t*) &data, 1, 2000);
 	displaystatus(ret);
 
 	uint32_t error = HAL_I2C_GetError(&i2c_handle);
@@ -109,7 +84,7 @@ int main(void) {
 
 	while (1) {
 		uint8_t data = 2;
-		HAL_I2C_Master_Transmit(&i2c_handle, 0x42, (uint8_t*) &data, 1, 20);
+		HAL_I2C_Master_Transmit(&i2c_handle, 0x41, (uint8_t*) &data, 1, 20);
 
 		gb.setLed(true);
 		gb.delay(100);
