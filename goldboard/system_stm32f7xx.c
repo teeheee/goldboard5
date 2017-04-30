@@ -144,6 +144,22 @@
   * @}
   */
 
+
+  void UB_System_ClockEnable(GPIO_TypeDef* PORT)
+  {
+    if(PORT==GPIOA) __GPIOA_CLK_ENABLE();
+    if(PORT==GPIOB) __GPIOB_CLK_ENABLE();
+    if(PORT==GPIOC) __GPIOC_CLK_ENABLE();
+    if(PORT==GPIOD) __GPIOD_CLK_ENABLE();
+    if(PORT==GPIOE) __GPIOE_CLK_ENABLE();
+    if(PORT==GPIOF) __GPIOF_CLK_ENABLE();
+    if(PORT==GPIOG) __GPIOG_CLK_ENABLE();
+    if(PORT==GPIOH) __GPIOH_CLK_ENABLE();
+    if(PORT==GPIOI) __GPIOI_CLK_ENABLE();
+    if(PORT==GPIOJ) __GPIOJ_CLK_ENABLE();
+    if(PORT==GPIOK) __GPIOK_CLK_ENABLE();
+  }
+
 /** @addtogroup STM32F7xx_System_Private_Functions
   * @{
   */
@@ -155,6 +171,7 @@
   * @param  None
   * @retval None
   */
+
 void SystemInit(void)
 {
   /* FPU settings ------------------------------------------------------------*/
