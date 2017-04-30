@@ -5,9 +5,7 @@
  *      Author: alex
  */
 
-
 #include "goldboard5.h"
-
 
 void DisplayConfig() {
 	/* LCD Initialization */
@@ -84,25 +82,41 @@ void SystemClock_Config() {
 	}
 }
 
-goldboard5::goldboard5()
-{
+goldboard5::goldboard5() {
 	HAL_Init();
 	SystemClock_Config();
 	DisplayConfig();
 	BSP_LED_Init(LED1);
+
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+	__HAL_RCC_GPIOE_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+	__HAL_RCC_GPIOG_CLK_ENABLE();
+	__HAL_RCC_GPIOI_CLK_ENABLE();
+	__HAL_RCC_GPIOH_CLK_ENABLE();
+
+	i2cbus.init(I2C_1);
+	pcf8564A.init(&i2cbus);
+
+	motors[0].init(0, 1, GPIO_PIN_8, GPIOA, &pcf8564A);
+	motors[1].init(2, 3, GPIO_PIN_6, GPIOG, &pcf8564A);
+	motors[2].init(4, 5, GPIO_PIN_4, GPIOB, &pcf8564A);
+	motors[3].init(6, 7, GPIO_PIN_7, GPIOG, &pcf8564A);
+
+
 }
 
-
-void goldboard5::setLed(bool state)
-{
-	if(state)
+void goldboard5::setLed(bool state) {
+	if (state)
 		BSP_LED_On(LED1);
 	else
 		BSP_LED_Off(LED1);
 }
 
-void goldboard5::delay(unsigned long time)
-{
+void goldboard5::delay(unsigned long time) {
 	HAL_Delay(time);
 }
 

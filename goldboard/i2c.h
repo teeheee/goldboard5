@@ -25,7 +25,8 @@
 
 class i2c{
 public:
-	i2c(uint8_t _i2c_nummer);
+	i2c();
+	void init(uint8_t _i2c_nummer);
 	void writeByte(uint8_t addr,uint8_t data);
 	uint8_t readByte(uint8_t addr);
 private:

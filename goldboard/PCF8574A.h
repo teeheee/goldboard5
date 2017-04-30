@@ -18,6 +18,7 @@
 #define PCF8574A_H_
 
 #include "stm32f7xx.h"
+#include "i2c.h"
 
 class PCF8574A
 {
@@ -27,16 +28,17 @@ class PCF8574A
 	private:
 	uint8_t _pcfdata;
 	uint8_t _writeNeeded;
+	i2c* _i2cBus;
 
 	//functions
 	public:
 	PCF8574A();
+	void init(i2c* i2cBus);
 	
 	void setPin(uint8_t, bool);
-	
 	uint8_t read();
 	void write();
-	
+
 	protected:
 	private:
 

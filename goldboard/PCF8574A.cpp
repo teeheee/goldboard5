@@ -17,16 +17,8 @@
 #include "PCF8574A.h"
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	#include "stm32_ub_i2c1.h"
-#ifdef __cplusplus
-}
-#endif
 
-
-#define PCF8574A_ADDRESS 0b01110000 
+#define PCF8574A_ADDRESS 0x41
 
 
 // default constructor
@@ -34,6 +26,12 @@ PCF8574A::PCF8574A()
 {
 	_pcfdata = 0;
 	_writeNeeded = true;
+	_i2cBus=0;
+}
+
+void PCF8574A::init(i2c* i2cBus)
+{
+	_i2cBus = i2cBus;
 }
 
 void PCF8574A::setPin(uint8_t pin, bool val)
@@ -50,7 +48,7 @@ void PCF8574A::setPin(uint8_t pin, bool val)
 
 uint8_t PCF8574A::read()
 {
-	UB_I2C1_ReadByte(PCF8574A_ADDRESS ,_pcfdata);
+	_pcfdata = _i2cBus->readByte(PCF8574A_ADDRESS);
 	return _pcfdata;
 }
 
@@ -60,7 +58,6 @@ void PCF8574A::write()
 	if (!_writeNeeded)
 		return;
 
-	UB_I2C1_WriteCMD((uint8_t)PCF8574A_ADDRESS,_pcfdata);
-	//i2cWriteToSlave (PCF8574A_ADDRESS, &_pcfdata, 1);
+	_i2cBus->writeByte(PCF8574A_ADDRESS ,_pcfdata);
 	_writeNeeded = false;
 }
