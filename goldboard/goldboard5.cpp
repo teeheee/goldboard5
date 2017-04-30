@@ -11,6 +11,9 @@
 
 goldboard5::goldboard5()
 {
+	SystemInit();
+	SystemCoreClockUpdate();
+	HAL_Init();
 	BSP_LED_Init(LED1);
 }
 
@@ -25,5 +28,5 @@ void goldboard5::setLed(bool state)
 
 void goldboard5::delay(unsigned long time)
 {
-
+	HAL_Delay(time);
 }
