@@ -27,26 +27,25 @@ Motor::Motor()
 	init(directionPinFirst, directionPinSecond, speedPin);
 }*/
 
-void Motor::init(uint8_t directionPinFirst, uint8_t directionPinSecond, uint8_t spPin, PCF8574A* pcf8574, uint8_t* gbSpeed)
+void Motor::init(uint8_t directionPinFirst, uint8_t directionPinSecond, uint32_t spPin,GPIO_TypeDef* spPort , PCF8574A* pcf8574)
 {
 	// private
 	_directionPinFirst = directionPinFirst;
 	_directionPinSecond = directionPinSecond;
 	_pcf8574 = pcf8574;
+	_spPin=spPin;
+	_spPort=spPort;
 	
 	// public
-	speed = gbSpeed;
+	speed = 0;
 
 	// set pin modes
 	// NOTE: DIRECTION PINS are on PCF5784
 	GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitStruct.Pin  = spPin;			//GPIO_PIN_11
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	HAL_GPIO_Init(spPort, &GPIO_InitStruct);
 
-	__HAL_RCC_GPIOI_CLK_ENABLE();
-
-		GPIO_InitStruct.Pin  = spPin;			//GPIO_PIN_11
-		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-		HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-	//pinMode(spPin, OUTPUT);
 	
 	// set as leerlauf
 	stop(false);	
@@ -57,18 +56,20 @@ void Motor::rotate(int16_t sp)
 	if (sp == 0)
 	{
 		stop(false);
+		HAL_GPIO_WritePin(_spPort, _spPin, GPIO_PIN_RESET);
 		return;
 	}
-	
-	if(sp > 0)
+	else if(sp > 0)
 	{
 		_pcf8574->setPin(_directionPinFirst, LOW);
 		_pcf8574->setPin(_directionPinSecond, HIGH);
+		HAL_GPIO_WritePin(_spPort, _spPin, GPIO_PIN_SET);
 	}
 	else
 	{
 		_pcf8574->setPin(_directionPinFirst, HIGH);
 		_pcf8574->setPin(_directionPinSecond, LOW);
+		HAL_GPIO_WritePin(_spPort, _spPin, GPIO_PIN_SET);
 	}
 	_pcf8574->write();
 	
@@ -78,20 +79,20 @@ void Motor::rotate(int16_t sp)
 		sp = 255;
 		
 	
-	*speed = (uint8_t) sp;
+	speed = (uint8_t) sp;
 }
 
 void Motor::stop(bool bremsen)
 {
 	if(bremsen) // motor bremsen (sollte nur im notfall verwendet werden)
 	{	
-		*speed = 255;
+		speed = 255;
 		_pcf8574->setPin(_directionPinFirst, HIGH);
 		_pcf8574->setPin(_directionPinSecond, HIGH);
 	}
 	else // motor auslaufen lassen
 	{
-		*speed = 0;
+		speed = 0;
 		_pcf8574->setPin(_directionPinFirst, LOW);
 		_pcf8574->setPin(_directionPinSecond, LOW);
 	}

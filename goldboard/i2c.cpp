@@ -9,7 +9,11 @@
 
 
 
-i2c::i2c(uint8_t _i2c_nummer) {
+i2c::i2c() {
+}
+
+void i2c::init(uint8_t _i2c_nummer)
+{
 	i2c_nummer = _i2c_nummer;
 	if(i2c_nummer==I2C_1)
 	{
