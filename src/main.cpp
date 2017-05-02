@@ -1,31 +1,15 @@
 #include "goldboard5.h"
+#include "Display.h"
 
 goldboard5 gb;
 
 int main(void) {
+	Display d;
+	int x = 0;
 	while(1)
 	{
-		gb.delay(100);
-		gb.motors[0].rotate(100);
-		gb.delay(100);
-		gb.motors[0].rotate(-100);
-		gb.delay(100);
-		gb.motors[0].rotate(0);
-		gb.motors[1].rotate(100);
-		gb.delay(100);
-		gb.motors[1].rotate(-100);
-		gb.delay(100);
-		gb.motors[1].rotate(0);
-		gb.motors[2].rotate(100);
-		gb.delay(100);
-		gb.motors[2].rotate(-100);
-		gb.delay(100);
-		gb.motors[2].rotate(0);
-		gb.motors[3].rotate(100);
-		gb.delay(100);
-		gb.motors[3].rotate(-100);
-		gb.delay(100);
-		gb.motors[3].rotate(0);
+		d.printf("Sekunde: %d\r\n",x);
+		x++;
 		gb.delay(1000);
 	}
 }
