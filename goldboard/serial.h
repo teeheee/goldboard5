@@ -13,6 +13,7 @@
 #include "stm32f7xx_hal_usart.h"
 
 /***uart1****/
+#define UART1				1
 #define UART1_TX_PORT		GPIOB
 #define UART1_TX_PIN		GPIO_PIN_7
 #define UART1_TX_CLOCK()	__GPIOB_CLK_ENABLE()
@@ -24,6 +25,7 @@
 #define UART1_CLOCK() 		__USART1_CLK_ENABLE()
 
 /***uart6****/
+#define UART6				6
 #define UART6_TX_PORT		GPIOC
 #define UART6_TX_PIN		GPIO_PIN_6
 #define UART6_TX_CLOCK()	__GPIOC_CLK_ENABLE()
@@ -37,13 +39,13 @@
 
 class serial {
 private:
-	USART_HandleTypeDef uart_handle;
+	UART_HandleTypeDef uart_handle;
 public:
 	serial();
 	void init(int uart_nummer,int baudrate);
 	uint8_t getChar();
 	void sendChar(uint8_t value);
-	void getString(uint8_t* buffer,int buffer_size,uint8_t end_of_string);
+	void getString(uint8_t* buffer,int buffer_size);
 	void sendString(uint8_t* buffer,int buffer_size);
 };
 
