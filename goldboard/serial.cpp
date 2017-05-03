@@ -76,8 +76,12 @@ void serial::getString(uint8_t* buffer,int buffer_size)
 	HAL_UART_Transmit(&uart_handle,buffer,buffer_size,20);
 }
 
-void serial::sendString(uint8_t* buffer,int buffer_size)
+void serial::sendString(uint8_t* buffer)
 {
-	HAL_UART_Transmit(&uart_handle,buffer,buffer_size,20);
+	for(int i = 0;;i++)
+		if(buffer[i]==0){
+			HAL_UART_Transmit(&uart_handle,buffer,i,20);
+			return;
+		}
 }
 

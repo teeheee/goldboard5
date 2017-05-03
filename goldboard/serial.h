@@ -46,7 +46,7 @@ public:
 	uint8_t getChar();
 	void sendChar(uint8_t value);
 	void getString(uint8_t* buffer,int buffer_size);
-	void sendString(uint8_t* buffer,int buffer_size);
+	void sendString(uint8_t* buffer);
 };
 
 #endif /* SERIAL_H_ */
