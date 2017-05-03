@@ -1,12 +1,15 @@
 #include "goldboard5.h"
-#include "serial.h"
+#include "Display.h"
+
+goldboard5 gb;
 
 int main(void) {
-	goldboard5 gb;
-	serial s;
-	s.init(UART6,9600);
-	while (1) {
-		gb.delay(10);
-		s.sendChar('a');
+	Display d;
+	int x = 0;
+	while(1)
+	{
+		d.printf("Sekunde: %d",x);
+		x++;
+		gb.delay(1000);
 	}
 }

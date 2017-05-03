@@ -7,35 +7,6 @@
 
 #include "goldboard5.h"
 
-void DisplayConfig() {
-	/* LCD Initialization */
-	BSP_LCD_Init();
-
-	/* LCD Initialization */
-	BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
-	BSP_LCD_LayerDefaultInit(1,
-	LCD_FB_START_ADDRESS + (BSP_LCD_GetXSize() * BSP_LCD_GetYSize() * 4));
-
-	/* Enable the LCD */
-	BSP_LCD_DisplayOn();
-
-	/* Select the LCD Background Layer  */
-	BSP_LCD_SelectLayer(0);
-
-	/* Clear the Background Layer */
-	BSP_LCD_Clear(LCD_COLOR_BLACK);
-
-	/* Select the LCD Foreground Layer  */
-	BSP_LCD_SelectLayer(1);
-
-	/* Clear the Foreground Layer */
-	BSP_LCD_Clear(LCD_COLOR_BLACK);
-
-	/* Configure the transparency for foreground and background :
-	 Increase the transparency */
-	BSP_LCD_SetTransparency(0, 0);
-	BSP_LCD_SetTransparency(1, 100);
-}
 
 void SystemClock_Config() {
 	RCC_ClkInitTypeDef RCC_ClkInitStruct;
@@ -85,7 +56,6 @@ void SystemClock_Config() {
 goldboard5::goldboard5() {
 	HAL_Init();
 	SystemClock_Config();
-	DisplayConfig();
 	BSP_LED_Init(LED1);
 
 	__HAL_RCC_GPIOA_CLK_ENABLE();
