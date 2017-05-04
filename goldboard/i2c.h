@@ -47,10 +47,10 @@ public:
 	void init(uint8_t _i2c_nummer);
 	void writeByte(uint8_t addr,uint8_t data);
 	uint8_t readByte(uint8_t addr);
-	int16_t i2c::I2C_ReadByte(uint8_t slave_adr, uint8_t adr);
-	int16_t i2c::I2C_WriteByte(uint8_t slave_adr, uint8_t adr, uint8_t wert);
-	int16_t i2c::I2C_ReadMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt);
-	int16_t i2c::I2C_WriteMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt);
+	int16_t I2C_ReadByte(uint8_t slave_adr, uint8_t adr);
+	int16_t I2C_WriteByte(uint8_t slave_adr, uint8_t adr, uint8_t wert);
+	int16_t I2C_ReadMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt);
+	int16_t I2C_WriteMultiByte(uint8_t slave_adr, uint8_t adr, uint8_t cnt);
 private:
 	static uint8_t I2C3_DATA[I2C3_MULTIBYTE_ANZ];  // Array
 	uint8_t i2c_nummer;

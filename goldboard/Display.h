@@ -16,6 +16,7 @@
 #include "stm32746g_discovery_lcd.h"
 #include "stm32f7xx_hal.h"
 #include "stm32f7xx_hal_i2c.h"
+#include "i2c.h"
 
 #define BUFFER_SIZE 255
 #define LINES_SIZE  10
@@ -120,9 +121,10 @@
 
 class Display {
 public:
+	i2c* I2c;
 	Display();
 	void printf(const char * format, ...);
-	void init();
+	void init(i2c *i2c_);
 	//--------------------------------------------------------------
 	// Globale Funktionen
 	//--------------------------------------------------------------

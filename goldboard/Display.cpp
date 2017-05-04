@@ -9,7 +9,6 @@
 
 
 Display::Display() {
-	init();
 	for(int i = 0; i < BUFFER_SIZE;i++)
 		buffer[i]=0;
 
@@ -20,7 +19,7 @@ Display::Display() {
 }
 
 
-void Display::init() {
+void Display::init(i2c *i2c_) {
 	/* LCD Initialization */
 	BSP_LCD_Init();
 
@@ -159,7 +158,6 @@ ErrorStatus Display::UB_Touch_Init(void)
   FT5336_TOUCH_REG[4][3]=FT5336_P5_YH_REG;
 
   // init vom I2C
-  UB_I2C3_Init();
 
   // kleine Pause
   HAL_Delay(TOUCH_INIT_DELAY);
@@ -245,7 +243,7 @@ uint8_t Display::P_Touch_ReadID(void)
   uint8_t n;
 
   for(n=0;n<5;n++) {
-    i2c_wert=I2C_ReadByte(FT5336_I2C_ADDR, FT5336_ID_REG);
+    i2c_wert=I2c->I2C_ReadByte(FT5336_I2C_ADDR, FT5336_ID_REG);
     if(i2c_wert>0) {
       if((i2c_wert&0xFF)==FT5336_ID) return(FT5336_ID);
     }
@@ -266,7 +264,7 @@ uint8_t Display::P_Touch_GetContacts(void)
   uint8_t ret_wert=0;
   int16_t i2c_wert;
 
-  i2c_wert=I2C_ReadByte(FT5336_I2C_ADDR, FT5336_STATUS_REG);
+  i2c_wert=I2c->I2C_ReadByte(FT5336_I2C_ADDR, FT5336_STATUS_REG);
   if(i2c_wert<0) return 99;
 
   // wert maskieren
@@ -300,12 +298,12 @@ uint8_t Display::P_Touch_GetPositions(void)
   for(n=0;n<MultiTouch_Data.cnt;n++) {
     // x_lo
     adr=FT5336_TOUCH_REG[n][0];
-    i2c_wert=I2C_ReadByte(FT5336_I2C_ADDR, adr);
+    i2c_wert=I2c->I2C_ReadByte(FT5336_I2C_ADDR, adr);
     if(i2c_wert<0) return 99;
     wert_lo = i2c_wert & FT5336_LO_MASK;
     // x_hi
     adr=FT5336_TOUCH_REG[n][1];
-    i2c_wert=I2C_ReadByte(FT5336_I2C_ADDR, adr);
+    i2c_wert=I2c->I2C_ReadByte(FT5336_I2C_ADDR, adr);
     if(i2c_wert<0) return 99;
     wert_hi = i2c_wert & FT5336_HI_MASK;
     position=(wert_hi<<8)|wert_lo;
@@ -313,12 +311,12 @@ uint8_t Display::P_Touch_GetPositions(void)
     MultiTouch_Data.p[n].yp=position;
     // y_lo
     adr=FT5336_TOUCH_REG[n][2];
-    i2c_wert=I2C_ReadByte(FT5336_I2C_ADDR, adr);
+    i2c_wert=I2c->I2C_ReadByte(FT5336_I2C_ADDR, adr);
     if(i2c_wert<0) return 99;
     wert_lo = i2c_wert & FT5336_LO_MASK;
     // y_hi
     adr=FT5336_TOUCH_REG[n][3];
-    i2c_wert=I2C_ReadByte(FT5336_I2C_ADDR, adr);
+    i2c_wert=I2c->I2C_ReadByte(FT5336_I2C_ADDR, adr);
     if(i2c_wert<0) return 99;
     wert_hi = i2c_wert & FT5336_HI_MASK;
     position=(wert_hi<<8)|wert_lo;
