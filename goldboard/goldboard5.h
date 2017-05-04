@@ -15,6 +15,7 @@
 #include "i2c.h"
 #include "PCF8574A.h"
 #include "Motor.h"
+#include "stm32f7xx_hal_rcc.h"
 
 
 
@@ -23,6 +24,7 @@ class goldboard5{
 private:
 	i2c   i2cbus;
 	PCF8574A pcf8564A;
+	void SystemClock_Config();
 public:
 	Motor motors[4];
 	goldboard5();

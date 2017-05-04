@@ -24,20 +24,7 @@
 
 */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "stm32_ub_touch_480x272.h"
-
-
-#ifdef __cplusplus
-}
-
-#endif
-
 #include "goldboard5.h"
-#include "i2c.h"
 
 goldboard5 gb;
 //Motor motor;
@@ -108,12 +95,12 @@ int main(void) {
 		//motor.rotate(255);
 		Touchscreentest();
 		Kompasstest();
-		gb.DisplayStringAtLine(6,(uint8_t*)"Taster: ");
-		gb.DisplayPrintNum(7,gb.digitalgetValue(GPIO_PIN_11));
+		//gb.DisplayStringAtLine(6,(uint8_t*)"Taster: ");
+		//gb.DisplayPrintNum(7,gb.digitalgetValue(GPIO_PIN_11));
 	}
 }
 
-
+/*
 #define CompassAdress 0x60
 #define CompassReg 3			//3 = wert von 0-359, 2 von 0-3599, 1 von 0-255
 #define start 0xC0
@@ -156,7 +143,7 @@ int kompassgetValue() {
 	        else if (value < 0)
 	            value = 360 + value;
 		}
-	 */
+
 }
 
 void Kompasstest() {
@@ -229,5 +216,5 @@ void Touchscreentest() {
 	gb.delay(100);
 	gb.DisplayClearLine(0);
 	gb.DisplayClearLine(1);
-}
+}*/
 
