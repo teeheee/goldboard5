@@ -10,6 +10,7 @@
 
 
 i2c::i2c() {
+
 }
 
 void i2c::init(uint8_t _i2c_nummer)
