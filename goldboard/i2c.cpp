@@ -67,7 +67,16 @@ void i2c::gpioConfigure(uint8_t i2c_nummer) {
 	    HAL_GPIO_Init(I2C1_SCL_PORT, &scl_initdef);
 	    HAL_GPIO_Init(I2C1_SDA_PORT, &sda_initdef);
 	}
-	else
+	else if(i2c_nummer==I2C_3)
+	{
+		sda_initdef.Pin = I2C3_SDA_PIN;
+		sda_initdef.Alternate = GPIO_AF4_I2C3;
+		scl_initdef.Pin = I2C3_SCL_PIN;
+		scl_initdef.Alternate = GPIO_AF4_I2C3;
+		__GPIOB_CLK_ENABLE(); //muss vor HAL_GPIO_Init kommen
+	    HAL_GPIO_Init(I2C3_SCL_PORT, &scl_initdef);
+	    HAL_GPIO_Init(I2C3_SDA_PORT, &sda_initdef);
+	}
 			return;
 }
 
