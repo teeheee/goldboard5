@@ -17,6 +17,7 @@
 #include "stm32f7xx_hal.h"
 #include "stm32f7xx_hal_i2c.h"
 #include "i2c.h"
+#include <cstdlib>
 
 #define BUFFER_SIZE 255
 #define LINES_SIZE  10
@@ -87,37 +88,37 @@
 #define   FT5336_HI_MASK               0x0F
 
 //-----------------------------------------
-	// Touch-Status
-	//-----------------------------------------
-	typedef enum {
-		TOUCH_PRESSED = 0,   // Touch ist betaetigt
-		TOUCH_RELEASED = 1	// Touch ist nicht betaetigt
-	} Touch_Status_t;
+// Touch-Status
+//-----------------------------------------
+typedef enum {
+	TOUCH_PRESSED = 0,   // Touch ist betaetigt
+	TOUCH_RELEASED = 1	// Touch ist nicht betaetigt
+} Touch_Status_t;
 
-	//-----------------------------------------
-	// Globale Struktur der Touch-Daten
-	//-----------------------------------------
-	typedef struct {
-		Touch_Status_t status;
-		uint16_t xp;
-		uint16_t yp;
-	} Touch_Data_t;
+//-----------------------------------------
+// Globale Struktur der Touch-Daten
+//-----------------------------------------
+typedef struct {
+	Touch_Status_t status;
+	uint16_t xp;
+	uint16_t yp;
+} Touch_Data_t;
 
-	//-----------------------------------------
-	// Touch-Position
-	//-----------------------------------------
-	typedef struct {
-		uint16_t xp;
-		uint16_t yp;
-	} TP_Point_t;
+//-----------------------------------------
+// Touch-Position
+//-----------------------------------------
+typedef struct {
+	uint16_t xp;
+	uint16_t yp;
+} TP_Point_t;
 
-	//-----------------------------------------
-	// Globale Struktur der Multi-Touch-Daten
-	//-----------------------------------------
-	typedef struct {
-		uint16_t cnt;
-		TP_Point_t p[TOUCH_MAX_CONTACT];
-	} MultiTouch_Data_t;
+//-----------------------------------------
+// Globale Struktur der Multi-Touch-Daten
+//-----------------------------------------
+typedef struct {
+	uint16_t cnt;
+	TP_Point_t p[TOUCH_MAX_CONTACT];
+} MultiTouch_Data_t;
 
 class Display {
 public:
@@ -125,6 +126,13 @@ public:
 	Display();
 	void printf(const char * format, ...);
 	void init(i2c *i2c_);
+	void PrintNumAt(uint16_t Xpos, uint16_t Ypos, int16_t num, Text_AlignModeTypdef Mode);
+	void PrintNum(uint16_t line, int16_t num);
+	void SetTextColor(uint32_t Color);
+	void ClearLine(uint32_t Line);
+	void StringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text,Text_AlignModeTypdef Mode);
+	void StringAtLine(uint16_t Line, uint8_t *ptr);
+
 	//--------------------------------------------------------------
 	// Globale Funktionen
 	//--------------------------------------------------------------
@@ -142,13 +150,12 @@ public:
 
 	Touch_Data_t returnTouch_Data();
 private:
-
 	char* lines[LINES_SIZE];
 	char buffer[BUFFER_SIZE];
 	int write_position;
+	uint8_t FT5336_TOUCH_REG[5][4]; // fuer Register Adressen
 	MultiTouch_Data_t MultiTouch_Data;
 	Touch_Data_t Touch_Data;
-
 
 };
 //--------------------------------------------------------------

@@ -16,9 +16,7 @@
 #include "PCF8574A.h"
 #include "Motor.h"
 #include "stm32f7xx_hal_rcc.h"
-
-
-
+#include "Display.h"
 
 class goldboard5{
 private:
